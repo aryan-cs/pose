@@ -44,7 +44,7 @@ export default function App() {
     if (!imagePickerPermission) {
       await requestImagePickerPermission();
       if (!imagePickerPermission) {
-        alert("We need permission to access your media library!");
+        alert("Please enable media library permissions.");
         return;
       }
     }
