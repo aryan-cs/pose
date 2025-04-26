@@ -5,15 +5,15 @@ import {
   useCameraPermissions,
 } from "expo-camera";
 import { useRef, useState } from "react";
-import { Button, Pressable, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Feather from "@expo/vector-icons/Feather";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import CameraFeed from "./components/CameraFeed";
+import ActionsBar from "./components/ActionsBar"
+import SettingsBar from "./components/SettingsBar"
 
 export default function App() {
   const [permission, requestPermission] = useCameraPermissions();
-  const ref = useRef<CameraView>(null);
+  const cameraRef = useRef<CameraView>(null);
   const [uri, setUri] = useState<string | null>(null);
   const [mode, setMode] = useState<CameraMode>("picture");
   const [facing, setFacing] = useState<CameraType>("back");
@@ -27,26 +27,26 @@ export default function App() {
     return (
       <View style={styles.container}>
         <Text style={{ textAlign: "center" }}>
-          We need your permission to use the camera
+          to begin, enable camera access.
         </Text>
-        <Button onPress={requestPermission} title="Grant permission" />
+        <Button onPress={requestPermission} title="grant access" />
       </View>
     );
   }
 
   const takePicture = async () => {
-    const photo = await ref.current?.takePictureAsync();
+    const photo = await cameraRef.current?.takePictureAsync();
     setUri(photo?.uri);
   };
 
   const recordVideo = async () => {
     if (recording) {
       setRecording(false);
-      ref.current?.stopRecording();
+      cameraRef.current?.stopRecording();
       return;
     }
     setRecording(true);
-    const video = await ref.current?.recordAsync();
+    const video = await cameraRef.current?.recordAsync();
     console.log({ video });
   };
 
@@ -64,101 +64,61 @@ export default function App() {
         <Image
           source={{ uri }}
           contentFit="contain"
-          style={{ width: 300, aspectRatio: 1 }}
+          style={styles.imagePreview}
         />
-        <Button onPress={() => setUri(null)} title="Take another picture" />
-      </View>
-    );
-  };
+        <Button 
+          onPress={() => setUri(null)} 
+          title="retake" />
 
-  const renderCamera = () => {
-    return (
-      <CameraView
-        style={styles.camera}
-        ref={ref}
-        mode={mode}
-        facing={facing}
-        mute={false}
-        responsiveOrientationWhenOrientationLocked
-      >
-        <View style={styles.shutterContainer}>
-          <Pressable onPress={toggleMode}>
-            {mode === "picture" ? (
-              <AntDesign name="picture" size={32} color="white" />
-            ) : (
-              <Feather name="video" size={32} color="white" />
-            )}
-          </Pressable>
-          <Pressable onPress={mode === "picture" ? takePicture : recordVideo}>
-            {({ pressed }) => (
-              <View
-                style={[
-                  styles.shutterBtn,
-                  {
-                    opacity: pressed ? 0.5 : 1,
-                  },
-                ]}
-              >
-                <View
-                  style={[
-                    styles.shutterBtnInner,
-                    {
-                      backgroundColor: mode === "picture" ? "white" : "red",
-                    },
-                  ]}
-                />
-              </View>
-            )}
-          </Pressable>
-          <Pressable onPress={toggleFacing}>
-            <FontAwesome6 name="rotate-left" size={32} color="white" />
-          </Pressable>
-        </View>
-      </CameraView>
+      </View>
     );
   };
 
   return (
     <View style={styles.container}>
-      {uri ? renderPicture() : renderCamera()}
+      {uri ? (renderPicture()) : (
+        <>
+          <CameraFeed
+            cameraRef={cameraRef}
+            mode={mode}
+            facing={facing}
+            enableGrid={true}
+          />
+
+          <SettingsBar 
+            mode={mode}
+            onTakePicture={takePicture}
+            onRecordVideo={recordVideo}
+            onToggleMode={toggleMode}
+            onToggleFacing={toggleFacing}
+          />
+          
+          <ActionsBar 
+            mode={mode}
+            onTakePicture={takePicture}
+            onRecordVideo={recordVideo}
+            onToggleMode={toggleMode}
+            onToggleFacing={toggleFacing}
+          />
+        </>
+      )}
     </View>
   );
 }
 
+const BACKGROUND_COLOR = "#0d0d0d";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: BACKGROUND_COLOR,
     alignItems: "center",
     justifyContent: "center",
   },
-  camera: {
-    flex: 1,
-    width: "100%",
-  },
-  shutterContainer: {
-    position: "absolute",
-    bottom: 44,
-    left: 0,
-    width: "100%",
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 30,
-  },
-  shutterBtn: {
-    backgroundColor: "transparent",
-    borderWidth: 5,
-    borderColor: "white",
-    width: 85,
-    height: 85,
-    borderRadius: 45,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  shutterBtnInner: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
-  },
+  imagePreview: {
+    width: "95%",
+    aspectRatio: 4 / 5,
+    borderRadius: 20,
+    overflow: "hidden",
+  }
 });
