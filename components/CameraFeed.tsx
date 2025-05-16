@@ -4,19 +4,22 @@ import {
     CameraView,
 } from "expo-camera";
 import { StyleSheet, View } from "react-native";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
 type CameraFeedProps = {
     cameraRef: React.RefObject<CameraView>;
     mode: CameraMode;
     facing: CameraType;
     enableGrid: boolean;
+    zoom: number;
 };
 
 export default function CameraFeed({
     cameraRef,
     mode,
     facing,
-    enableGrid
+    enableGrid,
+    zoom
 }: CameraFeedProps) {
     return (
         <CameraView
@@ -25,6 +28,7 @@ export default function CameraFeed({
             mode={mode}
             facing={facing}
             mute={false}
+            zoom={zoom} // [0, 1]
             responsiveOrientationWhenOrientationLocked
         >
             {enableGrid && (

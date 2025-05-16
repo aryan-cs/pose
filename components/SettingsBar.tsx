@@ -5,9 +5,9 @@ import {
 } from "expo-camera";
 import { StyleSheet, View, Text } from "react-native";
 import { Pressable } from "react-native";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Feather from "@expo/vector-icons/Feather";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import StyledOption from "./StyledOption";
+
+const SETTING_ICON_SIZE = 45;
 
 type CameraFeedProps = {
     mode: CameraMode;
@@ -27,26 +27,41 @@ export default function ButtonsBar({
     return (
     <View style={styles.settingsContainer}>
     
-        <Text>brightness</Text>
-        <Text>contrast</Text>
-        <Text>exposure</Text>
+        <Pressable onPress={onToggleFacing}>
+            <StyledOption 
+                name="brightness" 
+                size={SETTING_ICON_SIZE} />
+        </Pressable>
+
+        <Pressable onPress={onToggleFacing}>
+            <StyledOption 
+                name="exposure" 
+                size={SETTING_ICON_SIZE} />
+        </Pressable>
+
+        <Pressable onPress={onToggleFacing}>
+            <StyledOption 
+                name="contrast" 
+                size={SETTING_ICON_SIZE} />
+        </Pressable>
+
+        <Pressable onPress={onToggleFacing}>
+            <StyledOption 
+                name="zoom" 
+                size={SETTING_ICON_SIZE} />
+        </Pressable>
             
     </View>);
 }
 
-const GRIDLINE_THICKNESS = 0.2;
-const GRIDLINE_COLOR = "rgba(255, 255, 255, 0.5)";
-const BUTTON_SIZE = 80;
-const BUTTON_OUTLINE = 5;
-const BUTTON_SPACING = 15;
-
 const styles = StyleSheet.create({
     settingsContainer: {
-        backgroundColor: "red",
         width: "80%",
-        height: "5%",
+        height: SETTING_ICON_SIZE,
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-between",
+        margin: 20,
+        borderRadius: SETTING_ICON_SIZE / 2,
     },
 });

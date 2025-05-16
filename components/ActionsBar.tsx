@@ -5,9 +5,9 @@ import {
 } from "expo-camera";
 import { StyleSheet, View } from "react-native";
 import { Pressable } from "react-native";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Feather from "@expo/vector-icons/Feather";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import StyledOption from "./StyledOption";
+
+const ACTION_ICON_SIZE = 55;
 
 type CameraFeedProps = {
     mode: CameraMode;
@@ -25,46 +25,31 @@ export default function ButtonsBar({
     onToggleFacing,
 }: CameraFeedProps) {
     return (
-    <View style={styles.shutterContainer}>
+        <View style={styles.shutterContainer}>
     
             <Pressable onPress={onToggleMode}>
-            {mode === "picture" ? (
-                <AntDesign name="picture" size={32} color="white" />
-            ) : (
-                <Feather name="video" size={32} color="white" />
-            )}
+                <StyledOption name="media" size={ACTION_ICON_SIZE} />
             </Pressable>
     
             <Pressable onPress={mode === "picture" ? onTakePicture : onRecordVideo}>
-            {({ pressed }) => (
-                <View
-                style={[
-                    styles.shutterBtn,
-                    {
-                    opacity: pressed ? 0.75 : 1,
-                    },
-                ]}
-                >
-                <View
-                    style={[
-                    styles.shutterBtnInner,
-                    {
-                        backgroundColor: mode === "picture" ? "white" : "red",
-                    },
-                    ]}
-                />
-                </View>
-            )}
+                {({ pressed }) => (
+                    <View style={[
+                        styles.shutterBtn,
+                        { opacity: pressed ? 0.75 : 1 }, 
+                    ]}>
+                        <View style={[ styles.shutterBtnInner ]} />
+                    </View>
+                )}
             </Pressable>
     
             <Pressable onPress={onToggleFacing}>
-            <FontAwesome6 name="rotate-left" size={32} color="white" />
+                <StyledOption name="flip" size={ACTION_ICON_SIZE} />
             </Pressable>
-        </View>);
+
+        </View>
+    );
 }
 
-const GRIDLINE_THICKNESS = 0.2;
-const GRIDLINE_COLOR = "rgba(255, 255, 255, 0.5)";
 const BUTTON_SIZE = 80;
 const BUTTON_OUTLINE = 5;
 const BUTTON_SPACING = 15;

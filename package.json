@@ -6,19 +6,24 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "^52.0.16",
-    "expo-camera": "~16.0.9",
-    "expo-image": "~2.0.3",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-native": "0.76.3",
-    "react-native-web": "~0.19.6"
+    "@tamagui/lucide-icons": "^1.126.12",
+    "expo": "^53.0.9",
+    "expo-camera": "~16.1.6",
+    "expo-image": "~2.1.7",
+    "expo-linear-gradient": "~14.1.4",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-icons": "^5.5.0",
+    "react-native": "0.79.2",
+    "react-native-gesture-handler": "~2.24.0",
+    "react-native-reanimated": "~3.17.4",
+    "react-native-web": "^0.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "~18.3.12",
+    "@types/react": "~19.0.10",
     "@types/react-native": "^0.72.8",
-    "typescript": "~5.3.3"
+    "typescript": "~5.8.3"
   },
   "name": "pose",
   "version": "1.0.0",

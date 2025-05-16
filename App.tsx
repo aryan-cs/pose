@@ -1,3 +1,5 @@
+// RUN npx expo start
+
 import {
   CameraMode,
   CameraType,
@@ -83,6 +85,7 @@ export default function App() {
             mode={mode}
             facing={facing}
             enableGrid={true}
+            zoom={0}
           />
 
           <SettingsBar 
@@ -114,6 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: BACKGROUND_COLOR,
     alignItems: "center",
     justifyContent: "center",
+    
   },
   imagePreview: {
     width: "95%",

@@ -1,4 +1,7 @@
 {
   "name": "pose",
-  "slug": "pose"
+  "slug": "pose",
+  "expo": {
+    "orientation": "portrait"
+  }
 }
